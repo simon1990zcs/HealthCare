@@ -1,0 +1,19 @@
+.selected {
+    background-color: #DDEFEF;
+}
+
+div.insert{
+	display: inline-block;
+}
+
+div.insert p{
+	display: inline-block;
+}
+
+div.insert input{
+	display: inline-block;
+}
+
+div.hide{
+	visibility: hidden;
+}
