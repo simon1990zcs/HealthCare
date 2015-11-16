@@ -5,7 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import com.mysql.jdbc.Statement;
+
 import java.sql.Date;
 
 import cs5200.Dao;
@@ -228,6 +232,114 @@ public class DoctorDao extends Dao {
 			statement = connection.prepareStatement(sql);
 			statement.setDouble(1, value);
 			statement.setInt(2, rid);
+			n = statement.executeUpdate();
+			statement.close();
+			statement = null;
+			connection.close();
+			connection = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return n;
+	}
+	
+	public int insertBloodPressureByIdsAndValue(int pid, int did, double value){
+		
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		Date date = new Date(System.currentTimeMillis());
+//		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		int n = 0;
+		
+		String sql1 = "insert into Records(date, patientId, doctorId) value(?,?,?) ";
+		String sql2 = "insert into BloodPressureCheck(id, bloodPressure) value(?,?) ";
+		
+		try {
+			statement = connection.prepareStatement(sql1,Statement.RETURN_GENERATED_KEYS);
+			statement.setDate(1, date);
+			statement.setInt(2, pid);
+			statement.setInt(3, did);
+			statement.executeUpdate();
+			ResultSet rs = statement.getGeneratedKeys();
+			rs.first();
+			int rid = rs.getInt(1); // get inserted record id; 
+			statement.close();
+
+			statement = connection.prepareStatement(sql2);
+			statement.setInt(1, rid);
+			statement.setDouble(2, value);
+			n = statement.executeUpdate();
+			statement.close();
+			statement = null;
+			connection.close();
+			connection = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return n;
+	}
+	
+	public int insertDiseaseRecordsByIdsAndDiseaseId(int pid, int did, int value){
+		
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		Date date = new Date(System.currentTimeMillis());
+//		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		int n = 0;
+		
+		String sql1 = "insert into Records(date, patientId, doctorId) value(?,?,?) ";
+		String sql2 = "insert into DiseaseConfirm(id, DiseaseId) value(?,?) ";
+		
+		try {
+			statement = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
+			statement.setDate(1, date);
+			statement.setInt(2, pid);
+			statement.setInt(3, did);
+			statement.executeUpdate();
+			ResultSet rs = statement.getGeneratedKeys();
+			rs.first();
+			int rid = rs.getInt(1); // get inserted record id; 
+			statement.close();
+
+			statement = connection.prepareStatement(sql2);
+			statement.setInt(1, rid);
+			statement.setInt(2, value);
 			n = statement.executeUpdate();
 			statement.close();
 			statement = null;

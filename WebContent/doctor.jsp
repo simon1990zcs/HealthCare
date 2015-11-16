@@ -82,6 +82,23 @@
     	return true;
     }
     
+    function insertSection(e, num){
+    	var sec = document.getElementById('insert');
+    	sec.className="";
+    	var cal = sec.getElementsByClassName('insert');
+    	var id = document.getElementById('insertPatientId');
+    	console.log(e.parentNode.parentNode);
+    	id.value = e.parentNode.parentNode.firstChild.innerText;
+    	
+     	if (num == 1){
+     		cal[1].className='insert';
+     		cal[2].className='insert hide';
+    	} else if (num == 2) {
+    		cal[2].className='insert';
+    		cal[1].className='insert hide';
+    	}  	
+    }
+    
     //]]>
     </script>
 </head>
@@ -211,8 +228,8 @@
 					if (entry.endDate == null){
 						%>
 						<tr><td><%= entry.patientId %></td><td><%= entry.patientName %></td><td><%= entry.startDate %></td>
-							<td><p class="btn btn-primary">Blood Pressure Check</p>
-								<p class="btn btn-primary">Disease Confirm</p>
+							<td><p class="btn btn-primary" onclick="insertSection(this,1)">Blood Pressure Check</p>
+								<p class="btn btn-primary" onclick="insertSection(this,2)">Disease Confirm</p>
 							</td>
 						</tr>
 						<%
@@ -220,10 +237,13 @@
 				}
 				%>
 			</table>
-			<div class="insert">
-				<p>Patient Id: </p><input name="patientId" value="001" disabled/>
+			<div id="insert" class="hide">
+			<form action="refresh" method=post>
+				<input type="hidden" name="identity" value="doctor"/>
+			 	<input type="hidden" name="id" value="<%= p.id%>"/>
+				<div class="insert"><p>Patient Id: </p><input id="insertPatientId" name="patientId" value="001" readonly/></div>
 				<div class="insert">
-				<p>Blood Pressure: </p><input name="bloodPressure" value="99"/>
+				<p>Blood Pressure: </p><input name="bloodPressure" placeholder="99"/>
 				</div>
 				<div class="insert">
 				<p>Disease</p>						
@@ -240,7 +260,8 @@
 						</select>
 				</div>
 				</div> 
-				<button class="btn btn-primary">Insert</button>
+				<button class="btn btn-primary" name="action" value="insert">Insert</button>
+				</form>
 			</div>
 			
 			

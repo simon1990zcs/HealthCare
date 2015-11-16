@@ -34,7 +34,9 @@ public class RefreshServlet extends HttpServlet {
 		String identity = request.getParameter("identity");
 		int id = Integer.parseInt(request.getParameter("id"));
 		String action = request.getParameter("action");
-		int recordId = Integer.parseInt(request.getParameter("recordId"));
+		String sRecordId = request.getParameter("recordId");
+		String sPatientId = request.getParameter("patientId");
+		
 		Integer tab = 0;
 		
 		if (identity.equals("doctor")){
@@ -45,11 +47,12 @@ public class RefreshServlet extends HttpServlet {
 			String sBlood = request.getParameter("bloodPressure");
 			String sDisease = request.getParameter("diseaseId");
 			
-			int operationResult = 0;
+			int operationResult = 0; // indicated operation success
 			
 			switch (action){
 			case "update":
 				tab = 1;
+				int recordId = Integer.parseInt(sRecordId);
 				if (sBlood != null){
 					double blood = Double.parseDouble(sBlood);
 					operationResult = ddao.updateBloodPressureByRecordIdAndValue(recordId, blood);
@@ -60,9 +63,20 @@ public class RefreshServlet extends HttpServlet {
 				break;
 			case "delete":
 				tab = 1;
-				ddao.deleteRecordById(recordId);
+				int recordId1 = Integer.parseInt(sRecordId);
+				ddao.deleteRecordById(recordId1);
 				break;
 			case "insert":
+				tab = 2;
+				int patientId = Integer.parseInt(sPatientId);
+				if (sBlood != null && !sBlood.isEmpty()){
+					double blood = Double.parseDouble(sBlood);
+					ddao.insertBloodPressureByIdsAndValue(patientId, id, blood);
+				} else if (sBlood!= null && !sDisease.isEmpty()) {
+					int diseaseId = Integer.parseInt(sDisease);
+					ddao.insertDiseaseRecordsByIdsAndDiseaseId(patientId, id, diseaseId);
+				} 
+				
 			}
 			
 			request.setAttribute("user", d);
