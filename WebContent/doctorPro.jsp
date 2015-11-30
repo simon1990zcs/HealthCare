@@ -13,6 +13,10 @@
 	int id = Integer.parseInt(request.getParameter("id"));
 	DoctorDao dao = DoctorDao.getInstance();
 	Doctor p = dao.selectInfoFromDoctorId(id);
+	String patientId = "";
+	if (request.getParameter("patientId") != null){
+		patientId = request.getParameter("patientId");
+	}
 	%>
 
 <div class="container">
@@ -35,7 +39,7 @@
 			<table class="table" width="400">
 				<tr><td width="200">StartDate:</td><td><%= p.startDate %></td></tr>
 				<tr><td>Specialty:</td><td><%= p.specialties %></td></tr>
-				<tr><td>Belonged Hospital:</td><td><a href="hospitalPro.jsp?id=<%= p.belongs %>"> <%= p.hospitalName %></a></td></tr>
+				<tr><td>Belonged Hospital:</td><td><a href="hospitalPro.jsp?id=<%= p.belongs %>&patientId=<%= patientId%>"> <%= p.hospitalName %></a></td></tr>
 			</table>
 		</div>
 </div>	

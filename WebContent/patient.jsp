@@ -137,7 +137,7 @@
 				List<BloodPressureRecord> BPR = dao.getAllBloodPressureRecordsBasedOnPatientID(p.id);
 				for(BloodPressureRecord r : BPR){
 					%>
-					<tr><td><%= r.id %></td><td><%= r.date %></td><td><a href="doctorPro.jsp?id=<%= r.doctorId %>" ><%= r.doctorName %></a></td><td><%= r.bloodPressure %></td></tr>
+					<tr><td><%= r.id %></td><td><%= r.date %></td><td><a href="doctorPro.jsp?id=<%= r.doctorId %>&patientId=<%= p.id%>" ><%= r.doctorName %></a></td><td><%= r.bloodPressure %></td></tr>
 					<%
 				}
 				%>
@@ -149,7 +149,7 @@
 				<%
 				for(DiseaseRecord r : DRs){
 					%>
-					<tr><td><%= r.id %></td><td><%= r.date %></td><td><a href="doctorPro.jsp?id=<%= r.doctorId %>" ><%= r.doctorName %></a></td><td><%= r.disease %></td></tr>
+					<tr><td><%= r.id %></td><td><%= r.date %></td><td><a href="doctorPro.jsp?id=<%= r.doctorId %>&patientId=<%= p.id%>" ><%= r.doctorName %></a></td><td><%= r.disease %></td></tr>
 					<%
 				}
 				%>

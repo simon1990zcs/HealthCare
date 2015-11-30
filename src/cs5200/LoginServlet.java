@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import cs5200.doctor.Doctor;
 import cs5200.doctor.DoctorDao;
+import cs5200.hospital.Hospital;
+import cs5200.hospital.HospitalDao;
 import cs5200.patient.Patient;
 import cs5200.patient.PatientDao;
 
@@ -58,8 +60,9 @@ public class LoginServlet extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/patient.jsp");
 				dispatcher.forward(request, response);
 				response.sendRedirect("/patient.jsp");
+				return;
 			}
-			return;
+			break;
 		case "doctor":
 			DoctorDao ddao = DoctorDao.getInstance();
 			Doctor d = ddao.selectInfoFromDoctorId(Integer.parseInt(userId));
@@ -70,16 +73,28 @@ public class LoginServlet extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/doctor.jsp");
 				dispatcher.forward(request, response);
 //				response.sendRedirect("/doctor.jsp");
+				return;
 			}
-			return;
+			break;
 		case "hospital":
+			HospitalDao hdao = HospitalDao.getInstance();
+			Hospital h = hdao.selectInfoFromHospitalId(Integer.parseInt(userId));
+			if (h != null && h.password.equals(password)){
+				success = true;
+				request.setAttribute("user", h);
+				request.setAttribute("identity", identity);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/hospital.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
 			break;
 		}
 		
-		
 		if (!success){
-			// stay in login page
-			response.sendRedirect("/Healthcare/login.jsp");
+			// stay in login page, invalid login information
+			request.setAttribute("error", 1);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+			dispatcher.forward(request, response);
 		} 
 	}
 

@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cs5200.record.BloodPressureRecord;
@@ -202,4 +203,62 @@ public class Dao {
 		return r;
 	}
 	
+
+
+
+public HashMap<Integer,String> getHospitalInfo(){
+	HashMap<Integer,String> ls = new HashMap<Integer,String>();
+	
+	Connection connection = getConnection();
+	PreparedStatement statement = null;
+	ResultSet results = null;
+	
+	String sql = "select h.id, h.name from Hospital h";
+	
+	try {
+		statement = connection.prepareStatement(sql);
+		results = statement.executeQuery();
+		while(results.next()) {
+			int rId = results.getInt("id");
+			String name = results.getString("name");
+			ls.put(rId, name);
+		}
+		results.close();
+		results = null;
+		statement.close();
+		statement = null;
+		connection.close();
+		connection = null;
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally {
+		if(results != null) {
+			try {
+				results.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(statement != null) {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	return ls;
+	}
 }

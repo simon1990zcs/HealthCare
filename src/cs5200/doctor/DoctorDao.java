@@ -178,6 +178,70 @@ public class DoctorDao extends Dao {
 		return ls;
 	}
 	
+	public int updateDoctorInfo(Doctor d, boolean insert){
+		
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		int n = 0;
+		String sql1 = "update BasicInfo "
+				    + "set name=?,age=?,gender=?,ssn=?,driverLisense=?,phoneNumber=?,address=?, password=? "
+				    + "where id="+d.id;
+		String sql2 = "update Doctor "
+				    + "set startDate=?, specialties=?, belongs=? "
+				    + "where id="+d.id;
+		if (insert){
+			sql1 = "insert into BasicInfo(name, age, gender, ssn, driverLisense, phoneNumber, address, password, id) "
+				  + "value(?,?,?,?,?,?,?,?,"+d.id+") ";
+			sql2 = "insert Doctor(startDate, specialties, belongs, id) "
+				  + "value(?,?,?,?) ";
+		}
+		
+		try {
+			statement = connection.prepareStatement(sql1);
+			statement.setString(1, d.name);
+			statement.setInt(2, d.age);
+			statement.setString(3,  d.gender.toString());
+			statement.setString(4, d.ssn);
+			statement.setString(5, d.driverLisense);
+			statement.setString(6, d.phoneNumber);
+			statement.setString(7, d.address);
+			statement.setString(8, d.password);
+			n = statement.executeUpdate();
+			statement.close();
+			statement = connection.prepareStatement(sql2);
+			statement.setDate(1, d.startDate);
+			statement.setString(2, d.specialties.toString());
+			statement.setInt(3, d.belongs);
+			statement.setInt(4, d.id);
+			n = statement.executeUpdate();
+			statement.close();
+			statement = null;
+			connection.close();
+			connection = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return n;
+	}
+	
 	public int updateDiseaseRecordsByRecordIdAndDiseaseId(int rid, int did){
 		
 		Connection connection = getConnection();
@@ -439,3 +503,4 @@ public class DoctorDao extends Dao {
 	}
 
 }
+
