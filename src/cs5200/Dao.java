@@ -167,8 +167,8 @@ public class Dao {
 		return ls;
 	}
 	
-	protected boolean deleteRecordBySql(String sql, int id){
-		boolean r = false;
+	protected int deleteRecordBySql(String sql, int id){
+		int r = 0;
 		
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
@@ -176,7 +176,7 @@ public class Dao {
 		try {
 			statement = connection.prepareStatement(sql);
 			statement.setInt(1, id);
-			r = statement.execute();
+			r = statement.executeUpdate();
 			statement.close();
 			statement = null;
 			connection.close();

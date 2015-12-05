@@ -30,6 +30,11 @@
       // Assign onclick events to the tab links, and
       // highlight the specific tab and hide others
       var t = document.getElementById('tab').value;
+      var alertShown = false;
+      if ( t >= 10){
+    	  alertShown = true;
+      }
+      t = t % 10;
       var i = 0;
       for ( var id in tabLinks ) {
         tabLinks[id].onclick = showTab;
@@ -41,6 +46,9 @@
       for ( var id in contentDivs ) {
         if ( i != t ) contentDivs[id].className = 'tabContent hide';
         i++;
+      }
+      if (alertShown){
+    	  window.alert("your operation has succeed!");
       }
       
     }
@@ -112,8 +120,10 @@
 		Integer tab = 0;
 		String name = "";
 		Doctor p = (Doctor) request.getAttribute("user");
-		if (request.getAttribute("tab") != null) 
+		if (request.getAttribute("tab") != null) {
 			tab = (Integer) request.getAttribute("tab");
+			request.removeAttribute("tab");
+		}
 		if (p != null){
 			name = p.name;
 		}

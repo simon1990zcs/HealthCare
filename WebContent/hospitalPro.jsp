@@ -8,23 +8,28 @@
 <link href="css/bootstrap.css" rel="stylesheet"/>
 <script type="text/javascript">
 	
-	function showComment(){
+	function initial(){
 		var n = document.getElementById('newComment');
 		var b = document.getElementById('commentSection');
 		if (b.value == 1){
 			n.className='container';
 		}
+		var alertShown = document.getElementById('tab');
+		if (alertShown.value > 0){
+			window.alert("your operation succeed");
+		}
 	}
 
 </script>
 </head>
-<body onload='showComment()'>
+<body onload='initial()'>
 
 	<%
 	int id = Integer.parseInt(request.getParameter("id"));
 	HospitalDao dao = HospitalDao.getInstance();
 	Hospital p = dao.selectInfoFromHospitalId(id);
 	String sPatientId = "";
+	int n = 0;
 	if (request.getParameter("patientId") != null){
 		sPatientId = request.getParameter("patientId");
 	}
@@ -37,13 +42,14 @@
 		String comment = request.getParameter("comment");
 		Date date= new Date(System.currentTimeMillis());
 		int patientId = Integer.parseInt(sPatientId);
-		dao.insertHospitalComment(id, patientId, comment);
+		n = dao.insertHospitalComment(id, patientId, comment);
 		p = dao.selectInfoFromHospitalId(id);
 	}
 	%>
 
 <div class="container">
 	<input type="hidden" id="commentSection" value="<%= commentShown%>"/>
+	<input type="hidden" id="tab" value="<%= n%>"/>
 	<h1>welcome to <%= p.name %>'s profile page</h1>
 	
 		<div id="myTabContent" >

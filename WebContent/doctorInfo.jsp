@@ -39,7 +39,7 @@
 	%>
 			<div class="tab-content" id = "profile">
 			<h3>Basic Info</h3>
-			<form action="refresh" method=post">
+			<form action="refresh" method=post>
 			<table class="table" width="400">
 				<tr><td width="200">user Id:</td><td><input name="id" value="<%= p.id%>" readonly/></td></tr>
 				<tr><td width="200">Name:</td><td><input name="name" value="<%= p.name%>"/></td></tr>
@@ -62,7 +62,7 @@
 				</tr>
 				
 				<tr><td width="200">SSN:</td><td><input name="ssn" value="<%= p.ssn%>"/></td></tr>
-				<tr><td width="200">Driver License:</td><td><input name="DriverLicense" value="<%= p.driverLisense%>"/></td></tr>
+				<tr><td width="200">Driver License:</td><td><input name="driverLicense" value="<%= p.driverLisense%>"/></td></tr>
 				<tr><td width="200">Phone Number:</td><td><input name="phoneNumber" value="<%= p.phoneNumber%>"/></td></tr>							
 				<tr><td width="200">Address:</td><td><input name="address" value="<%= p.address%>"/></td></tr>
 				</table>

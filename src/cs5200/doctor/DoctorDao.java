@@ -182,13 +182,14 @@ public class DoctorDao extends Dao {
 		
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
+		System.out.println("driver license is " + d.driverLisense);
 		int n = 0;
 		String sql1 = "update BasicInfo "
 				    + "set name=?,age=?,gender=?,ssn=?,driverLisense=?,phoneNumber=?,address=?, password=? "
 				    + "where id="+d.id;
 		String sql2 = "update Doctor "
 				    + "set startDate=?, specialties=?, belongs=? "
-				    + "where id="+d.id;
+				    + "where id=? ";
 		if (insert){
 			sql1 = "insert into BasicInfo(name, age, gender, ssn, driverLisense, phoneNumber, address, password, id) "
 				  + "value(?,?,?,?,?,?,?,?,"+d.id+") ";
@@ -433,7 +434,7 @@ public class DoctorDao extends Dao {
 		return n;
 	}
 	
-	public boolean deleteRecordById(int id){
+	public int deleteRecordById(int id){
 		String sql = "delete from Records where id=?";
 		return super.deleteRecordBySql(sql, id);
 	}

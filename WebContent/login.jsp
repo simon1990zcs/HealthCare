@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login Page</title>
 <link href="css/bootstrap.css" rel="stylesheet"/>
+<link href="css/selection.css" rel="stylesheet"/>
 <script type="text/javascript">
 
  function showError(){
@@ -47,6 +48,11 @@
 		</div>
 		<button class="btn btn-primary btn-block">Login</button>
 	</form>	
+</div>
+
+<div class="container">
+	<br/>
+	<img src="img/health-background.jpg" style="float: right"/>
 </div>
 	
 

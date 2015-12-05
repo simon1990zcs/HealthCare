@@ -30,6 +30,10 @@
       // Assign onclick events to the tab links, and
       // highlight the specific tab and hide others
       var t = document.getElementById('tab').value;
+      if ( t >= 10){
+    	  alertShown = true;
+      }
+      t = t % 10;
       var i = 0;
       for ( var id in tabLinks ) {
         tabLinks[id].onclick = showTab;
@@ -41,6 +45,9 @@
       for ( var id in contentDivs ) {
         if ( i != t ) contentDivs[id].className = 'tabContent hide';
         i++;
+      }
+      if (alertShown){
+    	  window.alert("your operation has succeed!");
       }
       
     }
@@ -100,8 +107,10 @@
 		Integer tab = 0;
 		String name = "";
 		Hospital p = (Hospital) request.getAttribute("user");
-		if (request.getAttribute("tab") != null) 
+		if (request.getAttribute("tab") != null) {
 			tab = (Integer) request.getAttribute("tab");
+			request.removeAttribute("tab");
+		}
 		if (p != null){
 			name = p.name;
 		}
@@ -173,29 +182,6 @@
 				}
 			%>
 			
-			
-<%--			<form action="refresh" method=post> 
- 			<input type="hidden" name="identity" value="doctor"/>
-			<input type="hidden" name="id" value="<%= p.id%>"/>
- 			<table id="BloodRecords" class="table">
-				<tr style="font-weight:bold"><td>Record Id</td><td>Date</td><td>Patient</td><td>Blood Pressure</td>
-						<td><input type="text" name="bloodPressure" placeholder="eg.100"/>
-							<input class="recordId" type="hidden" name="recordId" value="0"/></td>  						
-				</tr>
-				<%
-				DoctorDao dao = DoctorDao.getInstance();
-				List<BloodPressureRecord> BPR = dao.getAllBloodPressureRecordsBasedOnDoctorID(p.id);
-				for(BloodPressureRecord r : BPR){
-					%>
-					<tr><td><%= r.id %></td><td><%= r.date %></td><td><a href="patientPro.jsp?id=<%= r.patientId %>" ><%= r.patientName %></a></td><td><%= r.bloodPressure %></td>
-						<td><button class="btn btn-warning" name="action" value="update" onclick="updateId(this)">Update</button> 
-							<button class="btn btn-danger" name="action" value="delete" onclick="updateId(this)" >Delete</button></td>
-					</tr>
-					<%
-				}
-				%>
-			</table>
-			</form>  --%>
 			
 		</div>
 	
